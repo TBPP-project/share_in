@@ -12,7 +12,9 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.json({
     name: 'in_share backend',
-    team: 'Group 28'
+    team: 'Group 28',
+    version: '1.0.0',
+    members: ['vikash', 'gautam', 'vedhanshu', 'neelam']
   });
 });
 
