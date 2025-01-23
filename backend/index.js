@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
     name: 'in_share backend',
     team: 'Group 28',
     version: '1.0.0',
-    members: ['vikash', 'gautam', 'vedhanshu', 'neelam']
+    members: ['vikash', 'gautam', 'vedanshu', 'neelam']
   });
 });
 
