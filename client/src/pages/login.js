@@ -1,55 +1,33 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "../style/Login.css"
+import React from "react";
+import '../style/Login.css';
+
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    console.log("Login form submitted");
-  };
-
+  
   return (
-    <div className="container">
-      <div className="left">
-        <h1 className="logo">InShare</h1>
-        <h2>Welcome to InShare Panel</h2>
-      </div>
-      <div className="right">
-        <h2>Sign In</h2>
-        <p>Please sign in to your admin account</p>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email Address</label>
-          <input type="email" id="email" placeholder="Enter your email" required />
-          <label htmlFor="password">Password</label>
-          <div className="password-container">
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              placeholder="Enter your password"
-              required
-            />
-            <span onClick={togglePasswordVisibility} className="toggle-password">
-              {showPassword ? "🙈" : "👁️"}
-            </span>
+    <div>
+      <div className="Container">
+        <div className="left-container">
+          <div className="left-heading-content">
+            <h3 className="left-heading">Share Your Files Easily</h3>
+            <h6 className="left-sub-heading">No Limits, No Hassle - Just Share with a Link! </h6>
           </div>
-          <div className="remember-me">
-            <input type="checkbox" id="rememberMe" />
-            <label htmlFor="rememberMe">Remember me</label>
+          <div className="left-footer"></div>
+        </div>
+        <div className="right-container">
+          <div className="login-in-box">
+            <h2 className="welcome-heading"> Welcome Back!</h2>
+            <div className="login-deatils"> 
+              <form >
+                <input type="email" name="email" placeholder="user@Example.com" className="email" />
+                <br></br>
+                <input type="password" name="password" placeholder="Password" className="password" />
+                <br></br>
+              </form>
+              <div className="button"><button type="submit" className="login-btn">Login</button></div>
+            </div>
           </div>
-          <button type="submit" className="sign-in-button">Sign In</button>
-          <div className="register-link">
-            <p>
-              Do not have an account? <Link to="/register">Register</Link>
-            </p>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );
