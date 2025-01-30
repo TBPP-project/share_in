@@ -1,26 +1,28 @@
 {
-  "name": "in_share",
+  "name": "express-auth-api",
   "version": "1.0.0",
-  "type": "commonjs",
-  "description": "File sharing application",
-  "main": "index.js",
+  "description": "Express.js authentication API with TypeScript",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.726.1",
-    "body-parser": "^2.0.2",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^5.0.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.12.0",
-    "mongoose": "^8.9.5",
-    "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.1.9",
-    "uuid": "^11.0.5"
+    "mongoose": "^7.5.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.3",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.5.7",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
   }
 }
