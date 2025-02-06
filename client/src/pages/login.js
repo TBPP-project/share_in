@@ -1,9 +1,9 @@
 import React from "react";
 import '../style/Login.css';
-
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  
+    const navigate = useNavigate();
   return (
     <div>
       <div className="Container">
@@ -19,13 +19,13 @@ const Login = () => {
             <h2 className="welcome-heading"> Welcome Back!</h2>
             <div className="login-deatils"> 
               <form >
-                <input type="email" name="email" placeholder="user@Example.com" className="email" />
+                <input type="email" name="email" placeholder="user@Example.com" className="email"  required/>
                 <br></br>
-                <input type="password" name="password" placeholder="Password" className="password" />
+                <input type="password" name="password" placeholder="Password" className="password" required />
                 <br></br>
               </form>
               <div className="button"><button type="submit" className="login-btn">Login</button></div>
-
+              <div className="right-footer"  onClick={() => navigate('/login')}>Don't have an account <a href="/register">register</a></div>
             </div>
           </div>
         </div>

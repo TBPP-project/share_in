@@ -1,95 +1,99 @@
-import React from 'react';
-import '../style/Homepage.css';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import '../style/Homepage.css'
 
-function HomePage() {
-  const navigate = useNavigate();
+
+const Dashboard = () => {
+  const [files, setFiles] = useState([]);
+  const [filter, setFilter] = useState("All");
+
+  const handleFileUpload = (event) => {
+    const uploadedFiles = Array.from(event.target.files);
+
+    const newFiles = uploadedFiles.map((file) => ({
+      id: Date.now() + Math.random(),
+      name: file.name,
+      size: (file.size / 1024 / 1024).toFixed(2) + " MB",
+      time: new Date().toLocaleString(),
+      type: getFileType(file.name),
+    }));
+
+    setFiles([...files, ...newFiles]);
+  };
+
+  const handleDelete = (id) => {
+    setFiles(files.filter((file) => file.id !== id));
+  };
+
+  const getFileType = (fileName) => {
+    const ext = fileName.split(".").pop().toLowerCase();
+    if (["doc", "docx", "pdf"].includes(ext)) return "Docs";
+    if (["xls", "xlsx", "csv"].includes(ext)) return "Sheets";
+    if (["mp4", "mp3", "jpg", "png"].includes(ext)) return "Media";
+    return "Others";
+  };
+
+  const filteredFiles = filter === "All" ? files : files.filter((file) => file.type === filter);
 
   return (
-    <div>
-      <div className='homepage-container'>
-        <div className='container'>
-          <div className='nav-bar'>
-            <div className='image-logo'></div>
-            <div className='sign-up'>
-              <button onClick={() => navigate('/login')}>Sign up</button>
-            </div>
-          </div>
-
-          <form>
-            <div className="drop-zone">
-              <div className="icon-container">
-                <img 
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4BfAta7DiYLHuI5xgnfRvEEs8Q-kbGoPLdg&s" 
-                  draggable="false" 
-                  className="left" 
-                  alt="File Icon" 
-                />
-                <img 
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4BfAta7DiYLHuI5xgnfRvEEs8Q-kbGoPLdg&s" 
-                  draggable="false" 
-                  className="center" 
-                  alt="File Icon" 
-                />
-                <img 
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4BfAta7DiYLHuI5xgnfRvEEs8Q-kbGoPLdg&s" 
-                  draggable="false" 
-                  className="right" 
-                  alt="File Icon" 
-                />
-              </div>
-              <input type="file" id="fileInput" />
-              <div className="title">
-                Drop your files here or, <span id="browseBtn">browse</span>
-              </div>
-            </div>
-          </form>
-
-          <div className="progress-container">
-            <div className="bg-progress"></div>
-            <div className="inner-container">
-              <div className="status">Uploading...</div>
-              <div className="percent-container">
-                <span className="percentage" id="progressPercent">0</span>%
-              </div>
-              <div className="progress-bar"></div>
-            </div>
-          </div>
-
-          <div className="sharing-container">
-            <p className="expire">Link expires in 24 hrs</p>
-            <div className="input-container">
-              <input type="text" id="fileURL" readOnly />
-              <img 
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAYmD7fVpets1HmTbk1UOvVt4CXxYCIfKVTQ&s" 
-                id="copyURLBtn" 
-                alt="Copy to clipboard icon" 
-              />
-            </div>
-            <div className="direct-email">
-              <span className='via-mail'> Share via mail</span>
-            </div>
-            <div className="email-container">
-              <form id="emailForm">
-                <div className="field">
-                  <label htmlFor="fromEmail">Your email:</label>
-                  <input type="email" autoComplete="email" required name="from-email" id="fromEmail" />
-                </div>
-                <div className="field">
-                  <label htmlFor="toEmail">Receiver's email:</label>
-                  <input type="email" required autoComplete="email" name="to-email" id="toEmail" />
-                </div>
-                <div className="send-btn-container">
-                  <button type="submit">Send</button>
-                </div>
-              </form>
-            </div>
-          </div>
-
+    <div className="dashboard-container">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div className="menu-header">
+          <span className="menu-icon">☰</span>
+          <h2 className="logo">Share In</h2>
         </div>
-      </div>
+        <button className="menu-item active"> <p>Dashboard</p></button>
+        <button className="menu-item"><p>Settings</p></button>
+      </aside>
+
+     
+
+      <main className="content">
+       
+        <div className="filter-buttons">
+          {["All", "Docs", "Sheets", "Media", "Others"].map((category) => (
+            <button
+              key={category}
+              className={`filter ${filter === category ? "active" : ""}`}
+              onClick={() => setFilter(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+        
+        <input type="file" id="fileUpload" multiple hidden onChange={handleFileUpload} />
+        <button className="plus-button" onClick={() => document.getElementById("fileUpload").click()}>+</button>
+
+        {/* File List */}
+        <div className="file-list">
+          {filteredFiles.length > 0 ? (
+            filteredFiles.map((file) => (
+              <div key={file.id} className="file-card">
+                <div className="file-icon">📄</div>
+                <p className="file-name">{file.name}</p>
+                <p className="file-details">{file.time}</p>
+                <p className="file-size">{file.size}</p>
+
+                {/* Three-dot menu */}
+                <div className="dropdown">
+                  <button className="file-options">⋮</button>
+                  <div className="dropdown-content">
+                    <button onClick={() => handleDelete(file.id)}>Delete</button>
+                    <button onClick={() => alert("Sharing " + file.name)}>Share</button>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="no-files">No files in this category.</p>
+          )}
+        </div>
+      </main>
     </div>
   );
-}
+};
 
-export default HomePage;
+export default Dashboard;
+
